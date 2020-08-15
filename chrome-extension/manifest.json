@@ -2,5 +2,10 @@
   "name": "Catanatron - Catan Assistant",
   "version": "1.0",
   "description": "Settlers of Catan assistant when playing online.",
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "permissions": ["storage"],
   "manifest_version": 2
 }
