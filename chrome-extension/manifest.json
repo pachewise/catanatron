@@ -4,9 +4,24 @@
   "description": "Settlers of Catan assistant when playing online.",
   "background": {
     "scripts": ["background.js"],
-    "persistent": false
+    "persistent": true
   },
-  "permissions": ["declarativeContent", "storage"],
+  "permissions": [
+    "debugger",
+    "webRequest",
+    "activeTab",
+    "declarativeContent",
+    "storage"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["*://colonist.io/*"],
+      "js": ["contentScript.js"],
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ],
+  "web_accessible_resources": ["*"],
   "icons": {
     "16": "images/logo16x16.png",
     "32": "images/logo32x32.png",
