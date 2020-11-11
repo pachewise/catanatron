@@ -15,13 +15,15 @@ from catanatron.game import Game
 from catanatron.json import GameEncoder
 from catanatron.models.player import RandomPlayer, Color, SimplePlayer
 from catanatron.players.weighted_random import WeightedRandomPlayer
+from catanatron.players.greedy_estimate import GreedyEstimatePlayer
 
 
 @click.command()
 @click.option("-n", "--number", default=5, help="Number of games.")
 def simulate(number):
     """Simple program simulates NUM Catan games."""
-    player_classes = [WeightedRandomPlayer, RandomPlayer, RandomPlayer, SimplePlayer]
+    player_classes = [RandomPlayer, RandomPlayer, RandomPlayer, RandomPlayer]
+    # player_classes = [GreedyEstimatePlayer, RandomPlayer, RandomPlayer, RandomPlayer]
     colors = [Color.RED, Color.BLUE, Color.ORANGE, Color.WHITE]
     pseudonyms = ["Foo", "Bar", "Baz", "Qux"]
 

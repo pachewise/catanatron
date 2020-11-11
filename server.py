@@ -8,6 +8,7 @@ from database import save_game_state, get_last_game_state
 from catanatron.game import Game
 from catanatron.json import GameEncoder
 from catanatron.models.player import RandomPlayer, Color
+from catanatron.players.greedy_estimate import GreedyEstimatePlayer
 
 
 app = Flask(__name__)
@@ -18,7 +19,7 @@ CORS(app)
 def create_game():
     game = Game(
         players=[
-            RandomPlayer(Color.RED),
+            GreedyEstimatePlayer(Color.RED),
             RandomPlayer(Color.BLUE),
             RandomPlayer(Color.WHITE),
             RandomPlayer(Color.ORANGE),

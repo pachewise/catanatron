@@ -80,3 +80,24 @@ Or you can run the suite in watch-mode with:
 ```
 ptw --ignore=tests/integration_tests/ --nobeep
 ```
+
+## Machine Learning
+
+To play games and save to database (for experience):
+
+```
+python play.py --num=100
+```
+
+To use these games from database and train a value-estimating model:
+
+```
+python create_feature_matrix.py
+```
+
+## For Testing Performance:
+
+```
+python -m cProfile play.py --num=5 -o profile.pstats
+snakeviz profile.pstats
+```

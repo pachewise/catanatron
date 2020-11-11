@@ -9,6 +9,7 @@ coverage = "*"
 black = "*"
 pytest = "*"
 coveralls = "*"
+snakeviz = "*"
 
 [packages]
 flask = "*"
@@ -17,6 +18,12 @@ psycopg2 = "*"
 catanatron = {editable = true, path = "."}
 click = "*"
 termplotlib = "*"
+setuptools = "*"
+auto-sklearn = "*"
+emcee = "*"
+pyrfr = "*"
+scikit-optimize = "*"
+pydoe = "*"
 
 [requires]
 python_version = "3.8"
