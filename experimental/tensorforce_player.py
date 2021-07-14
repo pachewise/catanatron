@@ -19,6 +19,10 @@ from catanatron_gym.envs.catanatron_env import (
     ACTION_SPACE_SIZE,
     normalize_action,
 )
+from experimental.machine_learning.players.minimax import (
+    AlphaBetaPlayer,
+    ValueFunctionPlayer,
+)
 
 # For repetitive results
 random.seed(1)
@@ -28,6 +32,7 @@ tf.random.set_seed(1)
 FEATURES = get_feature_ordering(2)
 NUM_FEATURES = len(FEATURES)
 EPISODES = 10_000  # 25_000 is like 8 hours
+EPISODES = 25_000
 
 
 @click.command()
@@ -49,12 +54,13 @@ def main(experiment_name):
     else:
         print("Creating model...")
         agent = Agent.create(
-            agent="tensorforce",
+            agent="vpg",
             environment=environment,  # alternatively: states, actions, (max_episode_timesteps)
             memory=50_000,  # alphazero is 500,000
-            update=dict(unit="episodes", batch_size=32),
-            optimizer=dict(type="adam", learning_rate=1e-3),
-            policy=dict(network="auto"),
+            batch_size=32,
+            # update=dict(unit="episodes", batch_size=32),
+            # optimizer=dict(type="adam", learning_rate=1e-3),
+            # policy=dict(network="auto"),
             # exploration=0.05,
             exploration=dict(
                 type="linear",
@@ -64,8 +70,8 @@ def main(experiment_name):
                 final_value=0.05,
             ),
             # policy=dict(network=dict(type='layered', layers=[dict(type='dense', size=32)])),
-            objective="policy_gradient",
-            reward_estimation=dict(horizon=20, discount=0.999),
+            # objective="policy_gradient",
+            # reward_estimation=dict(horizon=20, discount=0.999),
             l2_regularization=1e-4,
             summarizer=dict(
                 directory=str(logs_directory),
@@ -105,8 +111,9 @@ class CustomEnvironment(Environment):
         p0 = Player(Color.BLUE)
         players = [
             p0,
-            RandomPlayer(Color.RED),
-            # VictoryPointPlayer(Color.RED),
+            # RandomPlayer(Color.RED),
+            VictoryPointPlayer(Color.RED),
+            # ValueFunctionPlayer(Color.RED),
         ]
         game = Game(players=players)
         self.game = game
