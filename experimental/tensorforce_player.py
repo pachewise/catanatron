@@ -1,4 +1,5 @@
 import random
+import os
 from pathlib import Path
 
 from tqdm import tqdm
@@ -34,6 +35,9 @@ NUM_FEATURES = len(FEATURES)
 EPISODES = 10_000  # 25_000 is like 8 hours
 EPISODES = 25_000
 
+EPISODES_PER_PHASE = 1000
+PHASES = 10
+
 
 @click.command()
 @click.argument("experiment_name")
@@ -46,61 +50,112 @@ def main(experiment_name):
         environment=CustomEnvironment, max_episode_timesteps=1000
     )
 
-    checkpoint_directory = Path("data/checkpoints/", experiment_name)
-    logs_directory = Path("data/logs", experiment_name)
-    if checkpoint_directory.exists():
-        print("Loading model...")
-        agent = Agent.load(directory=str(checkpoint_directory))
+    # initialize enemy and agent.
+    base_checkpoint_dir = Path("data", "checkpoints", experiment_name)
+    base_enemy_checkpoint_dir = Path("data", "checkpoints", f"{experiment_name}-enemy")
+    base_logs_dir = Path("data", "logs", experiment_name)
+
+    # has runned before
+    has_runned_before = base_checkpoint_dir.exists()
+    if has_runned_before:
+        print("Continuing where we left...")
+
+        # try loading latest checkpoint, or create
+        phases = sorted([int(x) for x in os.listdir(base_checkpoint_dir)])
+        if len(phases) == 0:
+            latest_phase = 1
+            log_dir = Path(base_logs_dir, "1")
+            latest_checkpoint_dir = Path(base_checkpoint_dir, "1")
+            agent = create_agent(environment, log_dir, latest_checkpoint_dir)
+        else:
+            latest_phase = phases[-1]
+            latest_checkpoint_dir = Path(base_checkpoint_dir, str(latest_phase))
+            agent = Agent.load(directory=str(latest_checkpoint_dir))
+            print("Loaded agent", latest_phase)
+
+        # try loading latest enemy or default to random
+        if base_enemy_checkpoint_dir.exists():
+            enemy_phases = sorted(
+                [int(x) for x in os.listdir(base_enemy_checkpoint_dir)]
+            )
+            if len(enemy_phases) > 0:
+                latest_enemy_phase = enemy_phases[-1]
+                latest_enemy_checkpoint_dir = Path(
+                    base_enemy_checkpoint_dir, str(latest_enemy_phase)
+                )
+                environment._environment.enemy_agent = ForcePlayer(
+                    Color.RED, latest_enemy_checkpoint_dir
+                )
+                print("Loaded enemy", latest_enemy_phase)
     else:
-        print("Creating model...")
-        agent = Agent.create(
-            agent="vpg",
-            environment=environment,  # alternatively: states, actions, (max_episode_timesteps)
-            memory=50_000,  # alphazero is 500,000
-            batch_size=32,
-            # update=dict(unit="episodes", batch_size=32),
-            # optimizer=dict(type="adam", learning_rate=1e-3),
-            # policy=dict(network="auto"),
-            # exploration=0.05,
-            exploration=dict(
-                type="linear",
-                unit="episodes",
-                num_steps=EPISODES,
-                initial_value=1.0,
-                final_value=0.05,
-            ),
-            # policy=dict(network=dict(type='layered', layers=[dict(type='dense', size=32)])),
-            # objective="policy_gradient",
-            # reward_estimation=dict(horizon=20, discount=0.999),
-            l2_regularization=1e-4,
-            summarizer=dict(
-                directory=str(logs_directory),
-                summaries=["reward", "action-value", "parameters"],
-            ),
-            saver=dict(
-                directory=str(checkpoint_directory),
-                frequency=100,  # save checkpoint every 100 updates
-            ),
-        )
+        latest_phase = 1
+        log_dir = Path(base_logs_dir, "1")
+        latest_checkpoint_dir = Path(base_checkpoint_dir, "1")
+        agent = create_agent(environment, log_dir, latest_checkpoint_dir)
 
-    # Train for 300 episodes
-    for _ in tqdm(range(1, EPISODES + 1), ascii=True, unit="episodes"):
+    breakpoint()
 
-        # Initialize episode
-        states = environment.reset()
-        terminal = False
+    # start phase, play games, store at phase 1 path.
+    for phase_i in tqdm(range(latest_phase, PHASES + 1), ascii=True, unit="phase"):
+        for _ in tqdm(range(1, EPISODES_PER_PHASE + 1), ascii=True, unit="episodes"):
+            # Initialize episode
+            states = environment.reset()
+            terminal = False
 
-        while not terminal:
-            # Episode timestep
-            actions = agent.act(states=states)
-            states, terminal, reward = environment.execute(actions=actions)
-            agent.observe(terminal=terminal, reward=reward)
+            while not terminal:
+                # Episode timestep
+                actions = agent.act(states=states)
+                states, terminal, reward = environment.execute(actions=actions)
+                agent.observe(terminal=terminal, reward=reward)
 
-    agent.close()
+        # done with phase, so copy phase over to enemy. and maybe set enemy.
+        # data/checkpoints/1 => data/checkpoints/2. create_agent(2)
+        next_checkponit_dir = Path(base_checkpoint_dir, phase_i + 1)
+        print("Copying from", latest_checkpoint_dir, next_checkponit_dir)
+
+        agent.close()
     environment.close()
 
 
+def create_agent(environment, log_dir, checkpoint_dir):
+    print("Creating model...")
+    return Agent.create(
+        agent="vpg",
+        environment=environment,  # alternatively: states, actions, (max_episode_timesteps)
+        memory=50_000,  # alphazero is 500,000
+        batch_size=32,
+        # update=dict(unit="episodes", batch_size=32),
+        # optimizer=dict(type="adam", learning_rate=1e-3),
+        # policy=dict(network="auto"),
+        # exploration=0.05,
+        exploration=dict(
+            type="linear",
+            unit="episodes",
+            num_steps=EPISODES,
+            initial_value=1.0,
+            final_value=0.05,
+        ),
+        # policy=dict(network=dict(type='layered', layers=[dict(type='dense', size=32)])),
+        # objective="policy_gradient",
+        # reward_estimation=dict(horizon=20, discount=0.999),
+        l2_regularization=1e-4,
+        summarizer=dict(
+            directory=str(log_dir),
+            summaries=["reward", "action-value", "parameters"],
+        ),
+        saver=dict(
+            directory=str(checkpoint_dir),
+            frequency=100,  # save checkpoint every N updates
+        ),
+    )
+
+
 class CustomEnvironment(Environment):
+    enemy_agent = RandomPlayer(Color.RED)
+    # RandomPlayer(Color.RED),
+    # VictoryPointPlayer(Color.RED),
+    # ValueFunctionPlayer(Color.RED),
+
     def states(self):
         return dict(type="float", shape=(NUM_FEATURES,))
 
@@ -109,12 +164,7 @@ class CustomEnvironment(Environment):
 
     def reset(self):
         p0 = Player(Color.BLUE)
-        players = [
-            p0,
-            # RandomPlayer(Color.RED),
-            VictoryPointPlayer(Color.RED),
-            # ValueFunctionPlayer(Color.RED),
-        ]
+        players = [p0, self.enemy_agent]
         game = Game(players=players)
         self.game = game
         self.p0 = p0
@@ -165,10 +215,10 @@ MODEL = None
 
 
 class ForcePlayer(Player):
-    def __init__(self, color, model_name):
+    def __init__(self, color, checkpoints_dir):
         super(ForcePlayer, self).__init__(color)
         global MODEL
-        MODEL = Agent.load(directory="data/checkpoints/" + model_name)
+        MODEL = Agent.load(directory=checkpoints_dir)
         MODEL.spec["summarizer"] = None
         MODEL.spec["saver"] = None
 
