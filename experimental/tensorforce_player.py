@@ -1,5 +1,6 @@
 import random
 import os
+import shutil
 from pathlib import Path
 
 from tqdm import tqdm
@@ -35,7 +36,7 @@ NUM_FEATURES = len(FEATURES)
 EPISODES = 10_000  # 25_000 is like 8 hours
 EPISODES = 25_000
 
-EPISODES_PER_PHASE = 1000
+EPISODES_PER_PHASE = 3_000
 PHASES = 10
 
 
@@ -51,52 +52,24 @@ def main(experiment_name):
     )
 
     # initialize enemy and agent.
-    base_checkpoint_dir = Path("data", "checkpoints", experiment_name)
-    base_enemy_checkpoint_dir = Path("data", "checkpoints", f"{experiment_name}-enemy")
-    base_logs_dir = Path("data", "logs", experiment_name)
-
-    # has runned before
-    has_runned_before = base_checkpoint_dir.exists()
-    if has_runned_before:
-        print("Continuing where we left...")
-
-        # try loading latest checkpoint, or create
-        phases = sorted([int(x) for x in os.listdir(base_checkpoint_dir)])
-        if len(phases) == 0:
-            latest_phase = 1
-            log_dir = Path(base_logs_dir, "1")
-            latest_checkpoint_dir = Path(base_checkpoint_dir, "1")
-            agent = create_agent(environment, log_dir, latest_checkpoint_dir)
-        else:
-            latest_phase = phases[-1]
-            latest_checkpoint_dir = Path(base_checkpoint_dir, str(latest_phase))
-            agent = Agent.load(directory=str(latest_checkpoint_dir))
-            print("Loaded agent", latest_phase)
-
+    checkpoint_dir = Path("data", "checkpoints", experiment_name)
+    enemy_checkpoint_dir = Path("data", "checkpoints", f"{experiment_name}-enemy")
+    logs_dir = Path("data", "logs", experiment_name)
+    if checkpoint_dir.exists():
         # try loading latest enemy or default to random
-        if base_enemy_checkpoint_dir.exists():
-            enemy_phases = sorted(
-                [int(x) for x in os.listdir(base_enemy_checkpoint_dir)]
+        if enemy_checkpoint_dir.exists():
+            print("Loading enemy...")
+            environment._environment.enemy_agent = ForcePlayer(
+                Color.RED, str(Path(enemy_checkpoint_dir, "enemy"))
             )
-            if len(enemy_phases) > 0:
-                latest_enemy_phase = enemy_phases[-1]
-                latest_enemy_checkpoint_dir = Path(
-                    base_enemy_checkpoint_dir, str(latest_enemy_phase)
-                )
-                environment._environment.enemy_agent = ForcePlayer(
-                    Color.RED, latest_enemy_checkpoint_dir
-                )
-                print("Loaded enemy", latest_enemy_phase)
-    else:
-        latest_phase = 1
-        log_dir = Path(base_logs_dir, "1")
-        latest_checkpoint_dir = Path(base_checkpoint_dir, "1")
-        agent = create_agent(environment, log_dir, latest_checkpoint_dir)
 
-    breakpoint()
+        print("Loading agent...")
+        agent = Agent.load(directory=str(checkpoint_dir), environment=environment)
+    else:
+        agent = create_agent(environment, logs_dir, checkpoint_dir)
 
     # start phase, play games, store at phase 1 path.
-    for phase_i in tqdm(range(latest_phase, PHASES + 1), ascii=True, unit="phase"):
+    for _ in tqdm(range(1, PHASES + 1), ascii=True, unit="phase"):
         for _ in tqdm(range(1, EPISODES_PER_PHASE + 1), ascii=True, unit="episodes"):
             # Initialize episode
             states = environment.reset()
@@ -108,12 +81,18 @@ def main(experiment_name):
                 states, terminal, reward = environment.execute(actions=actions)
                 agent.observe(terminal=terminal, reward=reward)
 
-        # done with phase, so copy phase over to enemy. and maybe set enemy.
-        # data/checkpoints/1 => data/checkpoints/2. create_agent(2)
-        next_checkponit_dir = Path(base_checkpoint_dir, phase_i + 1)
-        print("Copying from", latest_checkpoint_dir, next_checkponit_dir)
+        # done with phase, so copy phase over to enemy.
+        print("Saving to", enemy_checkpoint_dir, "enemy", "saved-model")
+        agent.save(enemy_checkpoint_dir, "enemy", "saved-model")
+        # print("Copying from", checkpoint_dir, enemy_checkpoint_dir)
+        # shutil.copytree(checkpoint_dir, enemy_checkpoint_dir, dirs_exist_ok=True)
 
-        agent.close()
+        # Reload enemy
+        environment._environment.enemy_agent = ForcePlayer(
+            Color.RED, str(Path(enemy_checkpoint_dir, "enemy"))
+        )
+
+    agent.close()
     environment.close()
 
 
@@ -215,19 +194,28 @@ MODEL = None
 
 
 class ForcePlayer(Player):
-    def __init__(self, color, checkpoints_dir):
+    def __init__(self, color, model_path):
         super(ForcePlayer, self).__init__(color)
         global MODEL
-        MODEL = Agent.load(directory=checkpoints_dir)
-        MODEL.spec["summarizer"] = None
-        MODEL.spec["saver"] = None
+        # MODEL = Agent.load(directory=checkpoints_dir)
+        # MODEL.spec["summarizer"] = None
+        # MODEL.spec["saver"] = None
+        MODEL = tf.keras.models.load_model(model_path)
 
     def decide(self, game, playable_actions):
         if len(playable_actions) == 1:
             return playable_actions[0]
 
         states = build_states(game, self)
-        action_int = MODEL.act(states, independent=True)
+
+        # Create Tensor(1,614) and mask to Tensor(1,290)
+        tstater = tf.reshape(tf.convert_to_tensor(states["state"]), (1, 614))
+        tmaskr = tf.reshape(tf.convert_to_tensor(states["action_mask"]), (1, 290))
+        result = MODEL.act(tstater, {"mask": tmaskr}, tf.convert_to_tensor(True))
+        action_int = result.numpy()[0]
+
+        # action_int = MODEL.act(states, independent=True)
+
         best_action = from_action_space(action_int, playable_actions)
         return best_action
 
