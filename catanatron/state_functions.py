@@ -113,6 +113,11 @@ def get_player_buildings(state, color_param, building_type_param):
     return state.buildings_by_color[color_param][building_type_param]
 
 
+def get_player_actual_vps(state, color):
+    key = player_key(state, color)
+    return state.player_state[f"{key}_ACTUAL_VICTORY_POINTS"]
+
+
 # ===== State Mutators
 def build_settlement(state, color, node_id, is_free):
     state.buildings_by_color[color][BuildingType.SETTLEMENT].append(node_id)

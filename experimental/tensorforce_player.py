@@ -1,3 +1,4 @@
+from catanatron.state_functions import get_player_actual_vps
 import random
 import os
 import shutil
@@ -103,10 +104,7 @@ def create_agent(environment, log_dir, checkpoint_dir):
         environment=environment,  # alternatively: states, actions, (max_episode_timesteps)
         memory=50_000,  # alphazero is 500,000
         batch_size=32,
-        # update=dict(unit="episodes", batch_size=32),
-        # optimizer=dict(type="adam", learning_rate=1e-3),
-        # policy=dict(network="auto"),
-        # exploration=0.05,
+        update_frequency=1,
         exploration=dict(
             type="linear",
             unit="episodes",
@@ -114,9 +112,6 @@ def create_agent(environment, log_dir, checkpoint_dir):
             initial_value=1.0,
             final_value=0.05,
         ),
-        # policy=dict(network=dict(type='layered', layers=[dict(type='dense', size=32)])),
-        # objective="policy_gradient",
-        # reward_estimation=dict(horizon=20, discount=0.999),
         l2_regularization=1e-4,
         summarizer=dict(
             directory=str(log_dir),
@@ -160,15 +155,18 @@ class CustomEnvironment(Environment):
         next_state = build_states(self.game, self.p0)
         terminal = winning_color is not None
 
-        # key = player_key(self.game.state, self.p0.color)
-        # points = self.game.state.player_state[f"{key}_ACTUAL_VICTORY_POINTS"]
-        # reward = int(winning_color == self.p0.color) * 1000 + points
+        # Implement a not-so-sparse reward that rewards vps over opponent
+        vps = get_player_actual_vps(self.game.state, self.p0.color)
+        enemy_color = next(filter(lambda c: c != self.p0.color, self.game.state.colors))
+        enemy_vps = get_player_actual_vps(self.game.state, enemy_color)
+        reward = 0
         if self.p0.color == winning_color:
-            reward = 1
-        elif winning_color is None:
-            reward = 0
-        else:
-            reward = -1
+            reward += 0.75
+        elif winning_color is not None:  # enemy won
+            reward += -0.75
+        vp_diff = vps - enemy_vps  # pos if we have more
+        reward += vp_diff * 0.02
+
         return next_state, terminal, reward
 
     def _advance_until_p0_decision(self):
