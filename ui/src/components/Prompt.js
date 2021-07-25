@@ -3,37 +3,42 @@ import { isPlayersTurn } from "../utils/stateUtils";
 
 import "./Prompt.scss";
 
-export function humanizeAction(action, botColors) {
-  const player = botColors.includes(action[0]) ? "BOT" : "YOU";
+export function humanizeAction(action) {
   switch (action[1]) {
     case "ROLL":
-      return `${player} ROLLED A ${action[2][0] + action[2][1]}`;
+      return `ROLLED A ${action[2][0] + action[2][1]}`;
     case "DISCARD":
-      return `${player} DISCARDED ${action[2]}`;
+      return `DISCARDED ${action[2]}`;
     case "BUY_DEVELOPMENT_CARD":
-      return `${player} BOUGHT DEVELOPMENT CARD`;
+      return `BOUGHT DEVELOPMENT CARD`;
     case "BUILD_SETTLEMENT":
     case "BUILD_CITY": {
       const parts = action[1].split("_");
       const building = parts[parts.length - 1];
       const tile = action[2];
-      return `${player} BUILT ${building} ON ${tile}`;
+      return `BUILT ${building} ON ${tile}`;
     }
     case "BUILD_ROAD": {
       const edge = action[2];
-      return `${player} BUILT ROAD ON ${edge}`;
+      return `BUILT ROAD ON ${edge}`;
     }
     case "PLAY_KNIGHT_CARD": {
-      return `${player} PLAYED KNIGHT CARD`;
+      return `PLAYED KNIGHT CARD`;
     }
     case "MOVE_ROBBER": {
       const tile = action[2];
-      return `${player} ROBBED ${tile}`;
+      return `ROBBED ${tile}`;
     }
     case "END_TURN":
-      return `${player} ENDED TURN`;
+      return `ENDED TURN`;
+    case "MARITIME_TRADE":
+      const trade = action[2];
+      const i = 4 - trade.filter((a) => a === null).length;
+      const a = trade[0];
+      const b = trade[4];
+      return `TRADED ${i} ${a} FOR 1 ${b}`;
     default:
-      return `${player} ${action.slice(1)}`;
+      return `${action.slice(1)}`;
   }
 }
 

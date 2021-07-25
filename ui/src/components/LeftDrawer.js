@@ -30,11 +30,17 @@ function DrawerContent({ gameState }) {
         {gameState.actions
           .slice()
           .reverse()
-          .map((action, i) => (
-            <div key={i} className="action">
-              {humanizeAction(action, gameState.bot_colors)}
-            </div>
-          ))}
+          .map((action, i) => {
+            const player = gameState.bot_colors.includes(action[0])
+              ? "BOT"
+              : "YOU";
+            return (
+              <div key={i} className="action">
+                <span className={action[0] + "-color"}>{player}</span>{" "}
+                {humanizeAction(action)}
+              </div>
+            );
+          })}
       </div>
     </>
   );

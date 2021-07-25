@@ -327,3 +327,10 @@ Here is also a list of ideas:
   - Continue implementing actions from the UI (not all implemented).
   - Chess.com-like UI for watching game replays (with Play/Pause and Back/Forward).
   - A terminal UI? (for ease of debugging)
+
+## TODO:
+
+- Tensorforce with simpler state representation.
+- Feature Set Infrastructure
+- Post, any ideas?
+- Post Catanatron Open AI Gym

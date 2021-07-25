@@ -36,23 +36,24 @@ def allow_feature(feature_name):
     )
 
 
-ALL_FEATURES = get_feature_ordering(num_players=2)
+ALL_FEATURES = get_feature_ordering(num_players=2, feature_set="simple")
 FEATURES = list(filter(allow_feature, ALL_FEATURES))
+FEATURES = ALL_FEATURES
 NUM_FEATURES = len(FEATURES)
 
 # ===== Configuration
-DATA_DIRECTORY = "data/simple-return-1m"
-DATA_SIZE = 101479  # use zcat data/mcts-playouts/labels.csv.gzip | wc
-DATA_SIZE = 101479  # use zcat data/mcts-playouts/labels.csv.gzip | wc
-EPOCHS = 100
+DATA_DIRECTORY = "data/alphabeta-games"
+DATA_SIZE = 10130340  # use zcat data/mcts-playouts/labels.csv.gzip | wc
+DATA_SIZE = 10130340  # use zcat data/mcts-playouts/labels.csv.gzip | wc
+EPOCHS = 10
 BATCH_SIZE = 1024
 STEPS_PER_EPOCH = DATA_SIZE // BATCH_SIZE
 PREFETCH_BUFFER_SIZE = 10
 LABEL_FILE = "rewards.csv.gzip"
-LABEL_COLUMN = "RETURN"
-VALIDATION_DATA_SIZE = 99573
-VALIDATION_DATA_SIZE = 99573
-VALIDATION_DATA_DIRECTORY = "data/simple-return"
+LABEL_COLUMN = "EVALUATIONS"
+VALIDATION_DATA_SIZE = 19061
+VALIDATION_DATA_SIZE = 19061
+VALIDATION_DATA_DIRECTORY = "data/alphabeta-games-validation"
 VALIDATION_STEPS = VALIDATION_DATA_SIZE // BATCH_SIZE
 NORMALIZATION = False
 NORMALIZATION_DIRECTORY = "data/reachability"
@@ -63,7 +64,7 @@ SHUFFLE_SEED = random.randint(0, 20000)
 VALIDATION_SHUFFLE_SEED = random.randint(0, 20000)
 SHUFFLE_BUFFER_SIZE = 100000
 
-MODEL_NAME = "1v1-rep-a"
+MODEL_NAME = "1v1-rep-a-evals"
 MODEL_PATH = f"experimental/models/{MODEL_NAME}"
 LOG_DIR = f"data/logs/{MODEL_NAME}/{int(time.time())}"
 
@@ -172,26 +173,21 @@ if NORMALIZATION:
     outputs = normalizer_layer(outputs)
 
 # outputs = tf.keras.layers.BatchNormalization()(outputs)
-# outputs = tf.keras.layers.Dense(352, activation="relu")(outputs)
-# outputs = tf.keras.layers.Dense(320, activation="relu")(outputs)
-# outputs = tf.keras.layers.Dense(160, activation="relu")(outputs)
-# outputs = tf.keras.layers.Dense(512, activation="relu")(outputs)
-# outputs = tf.keras.layers.Dense(352, activation="relu")(outputs)
-# outputs = tf.keras.layers.Dense(64, activation="relu")(outputs)
-# outputs = tf.keras.layers.Dense(32, activation="relu")(outputs)
-outputs = tf.keras.layers.Dense(
-    8, activation="relu", kernel_initializer="random_normal"
-)(outputs)
+LAYERS = [64, 32]
+for num_neurons in LAYERS:
+    outputs = tf.keras.layers.Dense(
+        num_neurons, activation="relu", kernel_initializer="random_normal"
+    )(outputs)
 outputs = tf.keras.layers.Dense(
     units=1,
-    activation="sigmoid",
+    activation="linear",
     kernel_initializer="random_normal",
-    kernel_regularizer="l2",
+    # kernel_regularizer="l2",
 )(outputs)
 model = tf.keras.Model(inputs=inputs, outputs=outputs)
 model.compile(
-    metrics=["mae", "accuracy"],
-    optimizer=tf.keras.optimizers.Adam(learning_rate=3e-6, clipnorm=1),
+    metrics=["mae"],
+    optimizer=tf.keras.optimizers.Adam(),
     # optimizer="adam",
     loss="binary_crossentropy",
 )

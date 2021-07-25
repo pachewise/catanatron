@@ -2,6 +2,7 @@ from typing import Tuple
 import functools
 from collections import Counter
 
+
 import networkx as nx
 
 from catanatron.state_functions import (
@@ -445,15 +446,15 @@ def game_features(game, p0_color):
     return features
 
 
-feature_extractors = [
+all_feature_extractors = [
     # PLAYER FEATURES =====
     player_features,
     resource_hand_features,
     # TRANSFERABLE BOARD FEATURES =====
-    # build_production_features(True),
-    # build_production_features(False),
-    # expansion_features,
-    # reachability_features,
+    build_production_features(True),
+    build_production_features(False),
+    expansion_features,
+    reachability_features,
     # RAW BASE-MAP FEATURES =====
     tile_features,
     port_features,
@@ -461,35 +462,56 @@ feature_extractors = [
     # GAME FEATURES =====
     game_features,
 ]
+raw_feature_extractors = [
+    # PLAYER FEATURES =====
+    player_features,
+    resource_hand_features,
+    # RAW BASE-MAP FEATURES =====
+    tile_features,
+    port_features,
+    graph_features,
+    # GAME FEATURES =====
+    game_features,
+]
+simple_feature_extractors = [
+    # PLAYER FEATURES =====
+    player_features,
+    resource_hand_features,
+    # TRANSFERABLE BOARD FEATURES =====
+    build_production_features(True),
+    build_production_features(False),
+    expansion_features,
+    reachability_features,
+    # GAME FEATURES =====
+    game_features,
+]
 
 
-def create_sample(game, p0_color):
+def create_sample(game, p0_color, feature_set="raw"):
     record = {}
+    feature_extractors = (
+        raw_feature_extractors if feature_set == "raw" else simple_feature_extractors
+    )
     for extractor in feature_extractors:
         record.update(extractor(game, p0_color))
     return record
 
 
-def create_sample_vector(game, p0_color, features=None):
-    features = features or get_feature_ordering()
-    sample_dict = create_sample(game, p0_color)
+def create_sample_vector(game, p0_color, features=None, feature_set="raw"):
+    features = features or get_feature_ordering(len(game.state.colors))
+    sample_dict = create_sample(game, p0_color, feature_set)
     return [float(sample_dict[i]) for i in features]
 
 
-FEATURE_ORDERING = None
-
-
-def get_feature_ordering(num_players=4):
-    global FEATURE_ORDERING
-    if FEATURE_ORDERING is None:
-        players = [
-            SimplePlayer(Color.RED),
-            SimplePlayer(Color.BLUE),
-            SimplePlayer(Color.WHITE),
-            SimplePlayer(Color.ORANGE),
-        ]
-        players = players[:num_players]
-        game = Game(players)
-        sample = create_sample(game, players[0].color)
-        FEATURE_ORDERING = sorted(sample.keys())
-    return FEATURE_ORDERING
+@functools.lru_cache(maxsize=8)
+def get_feature_ordering(num_players=4, feature_set="raw"):
+    players = [
+        SimplePlayer(Color.RED),
+        SimplePlayer(Color.BLUE),
+        SimplePlayer(Color.WHITE),
+        SimplePlayer(Color.ORANGE),
+    ]
+    players = players[:num_players]
+    game = Game(players)
+    sample = create_sample(game, players[0].color, feature_set)
+    return sorted(sample.keys())

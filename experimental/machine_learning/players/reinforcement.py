@@ -67,8 +67,9 @@ def allow_feature(feature_name):
 
 ALL_FEATURES = get_feature_ordering(num_players=2)
 FEATURES = list(filter(allow_feature, ALL_FEATURES))
-FEATURES = get_feature_ordering(2)
-FEATURE_INDICES = [ALL_FEATURES.index(f) for f in FEATURES]
+FEATURES = get_feature_ordering(2, "simple")
+print(FEATURES)
+# FEATURE_INDICES = [ALL_FEATURES.index(f) for f in FEATURES]
 
 EPSILON = 0.20  # for epsilon-greedy action selection
 # singleton for model. lazy-initialize to easy dependency graph and stored
@@ -219,14 +220,14 @@ class VRLPlayer(Player):
             game_copy = game.copy()
             game_copy.execute(action)
 
-            sample = create_sample(game_copy, self.color)
+            sample = create_sample(game_copy, self.color, "simple")
             state = [float(sample[i]) for i in FEATURES]
             samples.append(state)
 
         scores = get_v_model(self.model_path).call(tf.convert_to_tensor(samples))
 
         # We do this instead of np.argmax(scores), because often all have same
-        #   value, at which point we want random instead of first (end turn).
+        #   value, at whiVch point we want random instead of first (end turn).
         best_score = np.max(scores)
         max_indices = np.where(scores == best_score)
         best_idx = np.random.choice(max_indices[0])

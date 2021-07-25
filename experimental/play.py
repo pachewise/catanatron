@@ -236,7 +236,6 @@ def play_batch(
     logger.info(f"AVG Ticks: {sum(ticks) / len(ticks)}")
     logger.info(f"AVG Turns: {sum(turns) / len(turns)}")
     logger.info(f"AVG Duration: {sum(durations) / len(durations)}")
-
     for player in players:
         vps = results_by_player[player.color]
         logger.info(f"AVG VPS: {player} {sum(vps) / len(vps)}")
@@ -256,12 +255,6 @@ def build_action_callback(games_directory):
             "samples": [],
             "actions": [],
             "board_tensors": [],
-            # These are for practicing ML with simpler problems
-            "OWS_ONLY_LABEL": [],
-            "OWS_LABEL": [],
-            "settlements": [],
-            "cities": [],
-            "prod_vps": [],
         }
     )
 
@@ -270,7 +263,9 @@ def build_action_callback(games_directory):
             return
 
         # action = game.state.actions[-1]  # the action that just happened
-        # data[action.color]["samples"].append(create_sample(game, action.color))
+        # data[action.color]["samples"].append(
+        #     create_sample(game, action.color, "simple")
+        # )
         # data[action.color]["actions"].append(hot_one_encode_action(action))
 
         # board_tensor = create_board_tensor(game, player.color)
@@ -280,9 +275,10 @@ def build_action_callback(games_directory):
         # ).numpy()
         # data[player.color]["board_tensors"].append(flattened_tensor)
 
+        # if game was just won by that last action, save data to disk
         if game.winning_color() is not None:
             for color in game.state.colors:
-                data[color]["samples"].append(create_sample(game, color))
+                data[color]["samples"].append(create_sample(game, color, "simple"))
             flush_to_matrices(game, data, games_directory)
 
     return action_callback
@@ -295,11 +291,18 @@ def flush_to_matrices(game, data, games_directory):
     actions = []
     board_tensors = []
     labels = []
-    for color in game.state.colors:
-        player_data = data[color]
-        samples.extend(player_data["samples"])
+    for player in game.state.players:
+        color = player.color
+
+        # if logging player use from it.
+        player_samples, evaluations = list(zip(*player.logs))
+
+        # player_data = data[color]
+        # player_samples = player_data["samples"]
         # actions.extend(player_data["actions"])
         # board_tensors.extend(player_data["board_tensors"])
+
+        samples.extend(player_samples)
 
         # Make matrix of (RETURN, DISCOUNTED_RETURN, TOURNAMENT_RETURN, DISCOUNTED_TOURNAMENT_RETURN)
         episode_return = get_discounted_return(game, color, 1)
@@ -319,24 +322,10 @@ def flush_to_matrices(game, data, games_directory):
                     vp_return,
                 ]
             ],
-            (len(player_data["samples"]), 1),
+            (len(player_samples), 1),
         )
-        # return_matrix = np.concatenate(
-        #     (return_matrix, np.transpose([player_data["OWS_ONLY_LABEL"]])), axis=1
-        # )
-        # return_matrix = np.concatenate(
-        #     (return_matrix, np.transpose([player_data["OWS_LABEL"]])), axis=1
-        # )
-        # return_matrix = np.concatenate(
-        #     (return_matrix, np.transpose([player_data["settlements"]])), axis=1
-        # )
-        # return_matrix = np.concatenate(
-        #     (return_matrix, np.transpose([player_data["cities"]])), axis=1
-        # )
-        # return_matrix = np.concatenate(
-        #     (return_matrix, np.transpose([player_data["prod_vps"]])), axis=1
-        # )
-        labels.extend(return_matrix)
+        # labels.extend(return_matrix)
+        labels.extend(evaluations)
 
     # Build Q-learning Design Matrix
     samples_df = pd.DataFrame.from_records(
@@ -346,18 +335,14 @@ def flush_to_matrices(game, data, games_directory):
     actions_df = pd.DataFrame(actions).astype("float64").add_prefix("ACTION_")
     rewards_df = pd.DataFrame(
         labels,
-        columns=[
-            "RETURN",
-            "DISCOUNTED_RETURN",
-            "TOURNAMENT_RETURN",
-            "DISCOUNTED_TOURNAMENT_RETURN",
-            "VICTORY_POINTS_RETURN",
-            # "OWS_ONLY_LABEL",
-            # "OWS_LABEL",
-            # "settlements",
-            # "cities",
-            # "prod_vps",
-        ],
+        columns=["EVALUATIONS"]
+        # columns=[
+        #     "RETURN",
+        #     "DISCOUNTED_RETURN",
+        #     "TOURNAMENT_RETURN",
+        #     "DISCOUNTED_TOURNAMENT_RETURN",
+        #     "VICTORY_POINTS_RETURN",
+        # ],
     ).astype("float64")
     print(rewards_df.describe())
 

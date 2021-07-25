@@ -14,6 +14,7 @@ from catanatron.models.actions import ActionType
 from catanatron.models.enums import BuildingType, Resource
 from catanatron_gym.features import (
     build_production_features,
+    create_sample,
     reachability_features,
     resource_hand_features,
 )
@@ -88,8 +89,17 @@ def base_fn(params):
             params["longest_road"] if num_buildable_nodes == 0 else 0.1
         )
 
+        winning_color = game.winning_color()
+        if winning_color is None:
+            result = 0
+        elif winning_color == p0_color:
+            result = 1
+        else:
+            result = -1
+
         return float(
-            game.state.player_state[f"{key}_VICTORY_POINTS"] * params["public_vps"]
+            result * params["result"]
+            + game.state.player_state[f"{key}_VICTORY_POINTS"] * params["public_vps"]
             + production * params["production"]
             + enemy_production * params["enemy_production"]
             + reachable_production_at_zero * params["reachable_production_0"]
@@ -110,15 +120,16 @@ def base_fn(params):
 # Idea: On CatanTest, try fetching AlphaBeta from master. Can you download a file, and import it
 #   as a Python file(?). Then use that ...
 DEFAULT_WEIGHTS = {
+    "result": 0,
     # Where to place. Note winning is best at all costs
     "public_vps": 3e14,
-    "production": 1e8,
+    "production": 1e8,  # amount and variety
     "enemy_production": -1e8,
     "num_tiles": 1,
     # Towards where to expand and when
     "reachable_production_0": 0,
     "reachable_production_1": 1e4,
-    "buildable_nodes": 1e3,
+    "buildable_nodes": 1e2,
     "longest_road": 10,
     # Hand, when to hold and when to use.
     "hand_synergy": 1e2,
@@ -130,6 +141,7 @@ DEFAULT_WEIGHTS = {
 
 
 CONTENDER_WEIGHTS = {
+    "result": 1e20,
     # Where to place. Note winning is best at all costs
     "public_vps": 3e14,
     "production": 1e8,
@@ -150,7 +162,9 @@ CONTENDER_WEIGHTS = {
 
 
 def contender_fn(params):
-    return base_fn(CONTENDER_WEIGHTS)
+    value = base_fn(CONTENDER_WEIGHTS)
+
+    return value
 
 
 def get_value_fn(name, params):
@@ -202,6 +216,7 @@ class AlphaBetaPlayer(Player):
         depth=ALPHABETA_DEFAULT_DEPTH,
         prunning=False,
         value_fn_builder_name=None,
+        training=False,
         params=DEFAULT_WEIGHTS,
     ):
         super().__init__(color)
@@ -210,7 +225,9 @@ class AlphaBetaPlayer(Player):
         self.value_fn_builder_name = (
             "contender_fn" if value_fn_builder_name == "C" else "base_fn"
         )
+        self.training = str(training).lower() != "false"
         self.params = params
+        self.logs = []
 
     def get_actions(self, game):
         if self.prunning:
@@ -226,19 +243,23 @@ class AlphaBetaPlayer(Player):
         state_id = str(len(game.state.actions))
         node = DebugStateNode(state_id, self.color)  # i think it comes from outside
         deadline = start + MAX_SEARCH_TIME_SECS
-        result = self.alphabeta(
+        best_action, best_value = self.alphabeta(
             game.copy(), self.depth, float("-inf"), float("inf"), deadline, node
         )
         # print("Decision Results:", self.depth, len(actions), time.time() - start)
         # if game.state.num_turns > 10:
         #     render_debug_tree(node)
         #     breakpoint()
-        return result[0]
+
+        if self.training:
+            self.logs.append((create_sample(game, self.color, "simple"), best_value))
+        return best_action
 
     def __repr__(self) -> str:
         return (
             super().__repr__()
-            + f"(depth={self.depth},value_fn={self.value_fn_builder_name},prunning={self.prunning})"
+            + f"(depth={self.depth},value_fn={self.value_fn_builder_name},"
+            + f"prunning={self.prunning},training={self.training})"
         )
 
     def alphabeta(self, game, depth, alpha, beta, deadline, node):
