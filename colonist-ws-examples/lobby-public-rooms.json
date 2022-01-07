@@ -1,0 +1,401 @@
+{
+  "id": "53",
+  "data": [
+    {
+      "id": "KWE5",
+      "players": [
+        {
+          "username": "Bauer#2450",
+          "icon": 11,
+          "isBot": false,
+          "hoverText": "Karma: 15/20"
+        },
+        {
+          "username": "LandSharks",
+          "icon": 11,
+          "isBot": false,
+          "hoverText": "Karma: 20/20"
+        }
+      ],
+      "maxPlayers": 4,
+      "gameModeSetting": 0,
+      "gameMapSetting": 0,
+      "speed": 1
+    },
+    {
+      "id": "ehr6",
+      "players": [
+        {
+          "username": "Beerpigs",
+          "icon": 90,
+          "isBot": false,
+          "hoverText": "Karma: 20/20"
+        },
+        {
+          "username": "Zoi#3549",
+          "icon": 11,
+          "isBot": false,
+          "hoverText": "Karma: 0/0"
+        },
+        {
+          "username": "VoodooDaddy",
+          "icon": 11,
+          "isBot": false,
+          "hoverText": "Karma: 20/20"
+        }
+      ],
+      "maxPlayers": 4,
+      "gameModeSetting": 0,
+      "gameMapSetting": 24,
+      "speed": 0
+    },
+    {
+      "id": "BBcc",
+      "players": [
+        {
+          "username": "miko90",
+          "icon": 11,
+          "isBot": false,
+          "hoverText": "Karma: 0/0"
+        }
+      ],
+      "maxPlayers": 4,
+      "gameModeSetting": 0,
+      "gameMapSetting": 0,
+      "speed": 1
+    },
+    {
+      "id": "wECe",
+      "players": [
+        {
+          "username": "TheNutsack",
+          "icon": 11,
+          "isBot": false,
+          "hoverText": "Karma: 20/20"
+        },
+        {
+          "username": "Alano#8195",
+          "icon": 11,
+          "isBot": false,
+          "hoverText": "Karma: 18/20"
+        }
+      ],
+      "maxPlayers": 4,
+      "gameModeSetting": 0,
+      "gameMapSetting": 0,
+      "speed": 1
+    },
+    {
+      "id": "YrMT",
+      "players": [
+        {
+          "username": "bidDaddy",
+          "icon": 11,
+          "isBot": false,
+          "hoverText": "Karma: 20/20"
+        }
+      ],
+      "maxPlayers": 4,
+      "gameModeSetting": 0,
+      "gameMapSetting": 0,
+      "speed": 0
+    },
+    {
+      "id": "fQiW",
+      "players": [
+        {
+          "username": "Nets#5818",
+          "icon": 11,
+          "isBot": false,
+          "hoverText": "Karma: 0/0"
+        },
+        {
+          "username": "Tonkin",
+          "icon": 1,
+          "isBot": true,
+          "hoverText": "Karma: 0/0"
+        },
+        {
+          "username": "Fredel",
+          "icon": 1,
+          "isBot": true,
+          "hoverText": "Karma: 0/0"
+        }
+      ],
+      "maxPlayers": 4,
+      "gameModeSetting": 0,
+      "gameMapSetting": 24,
+      "speed": 1
+    },
+    {
+      "id": "2khf",
+      "players": [
+        {
+          "username": "Mimolette",
+          "icon": 11,
+          "isBot": false,
+          "hoverText": "Karma: 8/9"
+        },
+        {
+          "username": "Shabbash",
+          "icon": 11,
+          "isBot": false,
+          "hoverText": "Karma: 20/20"
+        }
+      ],
+      "maxPlayers": 4,
+      "gameModeSetting": 0,
+      "gameMapSetting": 0,
+      "speed": 1
+    },
+    {
+      "id": "5KwC",
+      "players": [
+        {
+          "username": "Yvon#9869",
+          "icon": 11,
+          "isBot": false,
+          "hoverText": "Karma: 0/0"
+        }
+      ],
+      "maxPlayers": 4,
+      "gameModeSetting": 0,
+      "gameMapSetting": 0,
+      "speed": 1
+    },
+    {
+      "id": "6mkz",
+      "players": [
+        {
+          "username": "Kano5324",
+          "icon": 11,
+          "isBot": false,
+          "hoverText": "Karma: 8/11"
+        },
+        {
+          "username": "Fawna6197",
+          "icon": 11,
+          "isBot": false,
+          "hoverText": "Karma: 0/0"
+        },
+        {
+          "username": "Raeann",
+          "icon": 1,
+          "isBot": true,
+          "hoverText": "Karma: 0/0"
+        },
+        {
+          "username": "Spence",
+          "icon": 1,
+          "isBot": true,
+          "hoverText": "Karma: 0/0"
+        }
+      ],
+      "maxPlayers": 4,
+      "gameModeSetting": 0,
+      "gameMapSetting": 0,
+      "speed": 1
+    },
+    {
+      "id": "W9tm",
+      "players": [
+        {
+          "username": "wawser#5134",
+          "icon": 11,
+          "isBot": false,
+          "hoverText": "Karma: 20/20"
+        },
+        {
+          "username": "Vixin",
+          "icon": 11,
+          "isBot": false,
+          "hoverText": "Karma: 3/3"
+        },
+        {
+          "username": "empannada",
+          "icon": 11,
+          "isBot": false,
+          "hoverText": "Karma: 18/20"
+        }
+      ],
+      "maxPlayers": 4,
+      "gameModeSetting": 0,
+      "gameMapSetting": 0,
+      "speed": 0
+    },
+    {
+      "id": "gAmp",
+      "players": [
+        {
+          "username": "McLeod#6191",
+          "icon": 11,
+          "isBot": false,
+          "hoverText": "Karma: 0/0"
+        },
+        {
+          "username": "Disini#3266",
+          "icon": 11,
+          "isBot": false,
+          "hoverText": "Karma: 0/0"
+        },
+        {
+          "username": "Kilah#9527",
+          "icon": 11,
+          "isBot": false,
+          "hoverText": "Karma: 0/0"
+        }
+      ],
+      "maxPlayers": 4,
+      "gameModeSetting": 0,
+      "gameMapSetting": 0,
+      "speed": 1
+    },
+    {
+      "id": "vhVx",
+      "players": [
+        {
+          "username": "LuisDlq",
+          "icon": 11,
+          "isBot": false,
+          "hoverText": "Karma: 19/20"
+        },
+        {
+          "username": "moo#0146",
+          "icon": 11,
+          "isBot": false,
+          "hoverText": "Karma: 20/20"
+        }
+      ],
+      "maxPlayers": 3,
+      "gameModeSetting": 0,
+      "gameMapSetting": 24,
+      "speed": 0
+    },
+    {
+      "id": "vum6",
+      "players": [
+        {
+          "username": "fekiduni",
+          "icon": 11,
+          "isBot": false,
+          "hoverText": "Karma: 19/20"
+        },
+        {
+          "username": "sandy123",
+          "icon": 11,
+          "isBot": false,
+          "hoverText": "Karma: 19/20"
+        },
+        {
+          "username": "Bang0005",
+          "icon": 11,
+          "isBot": false,
+          "hoverText": "Karma: 16/17"
+        },
+        {
+          "username": "Lanta#8589",
+          "icon": 11,
+          "isBot": false,
+          "hoverText": "Karma: 6/8"
+        }
+      ],
+      "maxPlayers": 4,
+      "gameModeSetting": 0,
+      "gameMapSetting": 0,
+      "speed": 0
+    },
+    {
+      "id": "w9Wm",
+      "players": [
+        {
+          "username": "Moi5983",
+          "icon": 11,
+          "isBot": false,
+          "hoverText": "Karma: 2/3"
+        }
+      ],
+      "maxPlayers": 4,
+      "gameModeSetting": 0,
+      "gameMapSetting": 0,
+      "speed": 1
+    },
+    {
+      "id": "h8xz",
+      "players": [
+        {
+          "username": "aish5635",
+          "icon": 11,
+          "isBot": false,
+          "hoverText": "Karma: 17/17"
+        }
+      ],
+      "maxPlayers": 4,
+      "gameModeSetting": 0,
+      "gameMapSetting": 0,
+      "speed": 1
+    },
+    {
+      "id": "TKPh",
+      "players": [
+        {
+          "username": "AnkurK",
+          "icon": 11,
+          "isBot": false,
+          "hoverText": "Karma: 16/20"
+        }
+      ],
+      "maxPlayers": 2,
+      "gameModeSetting": 0,
+      "gameMapSetting": 0,
+      "speed": 0
+    },
+    {
+      "id": "jGDD",
+      "players": [
+        {
+          "username": "Karrat",
+          "icon": 11,
+          "isBot": false,
+          "hoverText": "Karma: 19/20"
+        }
+      ],
+      "maxPlayers": 4,
+      "gameModeSetting": 0,
+      "gameMapSetting": 0,
+      "speed": 0
+    },
+    {
+      "id": "yn6C",
+      "players": [
+        {
+          "username": "Millsy#3133",
+          "icon": 11,
+          "isBot": false,
+          "hoverText": "Karma: 0/1"
+        },
+        {
+          "username": "Evy",
+          "icon": 1,
+          "isBot": true,
+          "hoverText": "Karma: 0/0"
+        },
+        {
+          "username": "Bar",
+          "icon": 1,
+          "isBot": true,
+          "hoverText": "Karma: 0/0"
+        },
+        {
+          "username": "Leonor",
+          "icon": 1,
+          "isBot": true,
+          "hoverText": "Karma: 0/0"
+        }
+      ],
+      "maxPlayers": 4,
+      "gameModeSetting": 0,
+      "gameMapSetting": 0,
+      "speed": 1
+    }
+  ]
+}

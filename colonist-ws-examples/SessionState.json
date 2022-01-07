@@ -1,0 +1,30 @@
+{
+  "id": "7",
+  "data": {
+    "id": "mwdePRzV",
+    "userState": {
+      "id": "47225202",
+      "username": "Signe#7104",
+      "isLoggedIn": false,
+      "passedTutorial": false,
+      "isBot": false,
+      "adsEnabled": true,
+      "icon": 11,
+      "karmaTextStatus": "Karma: 0/0",
+      "karmaHoverStatus": "Player completed 0 games in recent 0 games",
+      "completedGameCount": 0
+    },
+    "location": 1,
+    "type": 0,
+    "items": {
+      "colonistCoins": 0,
+      "presalePacks": [],
+      "expansions": [],
+      "maps": [],
+      "icons": [],
+      "colors": []
+    },
+    "isReadyToPlay": false,
+    "selectedColor": 0
+  }
+}

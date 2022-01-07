@@ -1,0 +1,11 @@
+{
+  "id": "9",
+  "data": {
+    "currentTurnState": 0,
+    "currentActionState": 1,
+    "currentTurnPlayerColor": 1,
+    "lastStateStart": 1641492281320,
+    "timeToWaitForState": 120,
+    "currentTime": 1641492281320
+  }
+}

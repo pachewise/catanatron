@@ -1,0 +1,662 @@
+{
+  "id": "14",
+  "data": {
+    "tileState": {
+      "tiles": [
+        {
+          "hexFace": { "x": 0, "y": -2 },
+          "tileType": 3,
+          "_diceNumber": 5,
+          "tilePieceTypes": 0,
+          "_diceProbability": 4
+        },
+        {
+          "hexFace": { "x": -1, "y": -1 },
+          "tileType": 2,
+          "_diceNumber": 10,
+          "tilePieceTypes": 0,
+          "_diceProbability": 3
+        },
+        {
+          "hexFace": { "x": -2, "y": 0 },
+          "tileType": 1,
+          "_diceNumber": 8,
+          "tilePieceTypes": 0,
+          "_diceProbability": 5
+        },
+        {
+          "hexFace": { "x": -2, "y": 1 },
+          "tileType": 3,
+          "_diceNumber": 4,
+          "tilePieceTypes": 0,
+          "_diceProbability": 3
+        },
+        {
+          "hexFace": { "x": -2, "y": 2 },
+          "tileType": 3,
+          "_diceNumber": 11,
+          "tilePieceTypes": 0,
+          "_diceProbability": 2
+        },
+        {
+          "hexFace": { "x": -1, "y": 2 },
+          "tileType": 5,
+          "_diceNumber": 12,
+          "tilePieceTypes": 0,
+          "_diceProbability": 1
+        },
+        {
+          "hexFace": { "x": 0, "y": 2 },
+          "tileType": 2,
+          "_diceNumber": 9,
+          "tilePieceTypes": 0,
+          "_diceProbability": 4
+        },
+        {
+          "hexFace": { "x": 1, "y": 1 },
+          "tileType": 1,
+          "_diceNumber": 10,
+          "tilePieceTypes": 0,
+          "_diceProbability": 3
+        },
+        {
+          "hexFace": { "x": 2, "y": 0 },
+          "tileType": 4,
+          "_diceNumber": 8,
+          "tilePieceTypes": 0,
+          "_diceProbability": 5
+        },
+        {
+          "hexFace": { "x": 2, "y": -1 },
+          "tileType": 1,
+          "_diceNumber": 3,
+          "tilePieceTypes": 0,
+          "_diceProbability": 2
+        },
+        {
+          "hexFace": { "x": 2, "y": -2 },
+          "tileType": 4,
+          "_diceNumber": 6,
+          "tilePieceTypes": 0,
+          "_diceProbability": 5
+        },
+        {
+          "hexFace": { "x": 1, "y": -2 },
+          "tileType": 2,
+          "_diceNumber": 2,
+          "tilePieceTypes": 0,
+          "_diceProbability": 1
+        },
+        {
+          "hexFace": { "x": 0, "y": -1 },
+          "tileType": 5,
+          "_diceNumber": 9,
+          "tilePieceTypes": 0,
+          "_diceProbability": 4
+        },
+        {
+          "hexFace": { "x": -1, "y": 0 },
+          "tileType": 4,
+          "_diceNumber": 3,
+          "tilePieceTypes": 0,
+          "_diceProbability": 2
+        },
+        {
+          "hexFace": { "x": -1, "y": 1 },
+          "tileType": 1,
+          "_diceNumber": 6,
+          "tilePieceTypes": 0,
+          "_diceProbability": 5
+        },
+        {
+          "hexFace": { "x": 0, "y": 1 },
+          "tileType": 3,
+          "_diceNumber": 5,
+          "tilePieceTypes": 0,
+          "_diceProbability": 4
+        },
+        {
+          "hexFace": { "x": 1, "y": 0 },
+          "tileType": 4,
+          "_diceNumber": 4,
+          "tilePieceTypes": 0,
+          "_diceProbability": 3
+        },
+        {
+          "hexFace": { "x": 1, "y": -1 },
+          "tileType": 0,
+          "_diceNumber": 0,
+          "tilePieceTypes": 1
+        },
+        {
+          "hexFace": { "x": 0, "y": 0 },
+          "tileType": 5,
+          "_diceNumber": 11,
+          "tilePieceTypes": 0,
+          "_diceProbability": 2
+        }
+      ],
+      "tileCorners": [
+        {
+          "hexCorner": { "x": 0, "y": -2, "z": 0 },
+          "owner": 0,
+          "buildingType": 0,
+          "portType": 4,
+          "restrictedStartingPlacement": false,
+          "bonuses": []
+        },
+        {
+          "hexCorner": { "x": 1, "y": -3, "z": 1 },
+          "owner": 0,
+          "buildingType": 0,
+          "portType": 0,
+          "restrictedStartingPlacement": false,
+          "bonuses": []
+        },
+        {
+          "hexCorner": { "x": 0, "y": -1, "z": 0 },
+          "owner": 0,
+          "buildingType": 0,
+          "portType": 0,
+          "restrictedStartingPlacement": false,
+          "bonuses": []
+        },
+        {
+          "hexCorner": { "x": 0, "y": -2, "z": 1 },
+          "owner": 0,
+          "buildingType": 0,
+          "portType": 0,
+          "restrictedStartingPlacement": false,
+          "bonuses": []
+        },
+        {
+          "hexCorner": { "x": -1, "y": -1, "z": 0 },
+          "owner": 0,
+          "buildingType": 0,
+          "portType": 0,
+          "restrictedStartingPlacement": false,
+          "bonuses": []
+        },
+        {
+          "hexCorner": { "x": 0, "y": -3, "z": 1 },
+          "owner": 0,
+          "buildingType": 0,
+          "portType": 4,
+          "restrictedStartingPlacement": false,
+          "bonuses": []
+        },
+        {
+          "hexCorner": { "x": -1, "y": 0, "z": 0 },
+          "owner": 0,
+          "buildingType": 0,
+          "portType": 0,
+          "restrictedStartingPlacement": false,
+          "bonuses": []
+        },
+        {
+          "hexCorner": { "x": -1, "y": -1, "z": 1 },
+          "owner": 0,
+          "buildingType": 0,
+          "portType": 0,
+          "restrictedStartingPlacement": false,
+          "bonuses": []
+        },
+        {
+          "hexCorner": { "x": -2, "y": 0, "z": 0 },
+          "owner": 0,
+          "buildingType": 0,
+          "portType": 3,
+          "restrictedStartingPlacement": false,
+          "bonuses": []
+        },
+        {
+          "hexCorner": { "x": -1, "y": -2, "z": 1 },
+          "owner": 0,
+          "buildingType": 0,
+          "portType": 3,
+          "restrictedStartingPlacement": false,
+          "bonuses": []
+        },
+        {
+          "hexCorner": { "x": -2, "y": 1, "z": 0 },
+          "owner": 0,
+          "buildingType": 0,
+          "portType": 0,
+          "restrictedStartingPlacement": false,
+          "bonuses": []
+        },
+        {
+          "hexCorner": { "x": -2, "y": 0, "z": 1 },
+          "owner": 0,
+          "buildingType": 0,
+          "portType": 1,
+          "restrictedStartingPlacement": false,
+          "bonuses": []
+        },
+        {
+          "hexCorner": { "x": -3, "y": 1, "z": 0 },
+          "owner": 0,
+          "buildingType": 0,
+          "portType": 0,
+          "restrictedStartingPlacement": false,
+          "bonuses": []
+        },
+        {
+          "hexCorner": { "x": -2, "y": -1, "z": 1 },
+          "owner": 0,
+          "buildingType": 0,
+          "portType": 0,
+          "restrictedStartingPlacement": false,
+          "bonuses": []
+        },
+        {
+          "hexCorner": { "x": -1, "y": 0, "z": 1 },
+          "owner": 0,
+          "buildingType": 0,
+          "portType": 0,
+          "restrictedStartingPlacement": false,
+          "bonuses": []
+        },
+        {
+          "hexCorner": { "x": -2, "y": 2, "z": 0 },
+          "owner": 0,
+          "buildingType": 0,
+          "portType": 0,
+          "restrictedStartingPlacement": false,
+          "bonuses": []
+        },
+        {
+          "hexCorner": { "x": -2, "y": 1, "z": 1 },
+          "owner": 0,
+          "buildingType": 0,
+          "portType": 0,
+          "restrictedStartingPlacement": false,
+          "bonuses": []
+        },
+        {
+          "hexCorner": { "x": -3, "y": 2, "z": 0 },
+          "owner": 0,
+          "buildingType": 0,
+          "portType": 1,
+          "restrictedStartingPlacement": false,
+          "bonuses": []
+        },
+        {
+          "hexCorner": { "x": -1, "y": 1, "z": 1 },
+          "owner": 0,
+          "buildingType": 0,
+          "portType": 0,
+          "restrictedStartingPlacement": false,
+          "bonuses": []
+        },
+        {
+          "hexCorner": { "x": -2, "y": 3, "z": 0 },
+          "owner": 0,
+          "buildingType": 0,
+          "portType": 0,
+          "restrictedStartingPlacement": false,
+          "bonuses": []
+        },
+        {
+          "hexCorner": { "x": -2, "y": 2, "z": 1 },
+          "owner": 0,
+          "buildingType": 0,
+          "portType": 2,
+          "restrictedStartingPlacement": false,
+          "bonuses": []
+        },
+        {
+          "hexCorner": { "x": -3, "y": 3, "z": 0 },
+          "owner": 0,
+          "buildingType": 0,
+          "portType": 2,
+          "restrictedStartingPlacement": false,
+          "bonuses": []
+        },
+        {
+          "hexCorner": { "x": -1, "y": 2, "z": 0 },
+          "owner": 0,
+          "buildingType": 0,
+          "portType": 0,
+          "restrictedStartingPlacement": false,
+          "bonuses": []
+        },
+        {
+          "hexCorner": { "x": 0, "y": 1, "z": 1 },
+          "owner": 0,
+          "buildingType": 0,
+          "portType": 0,
+          "restrictedStartingPlacement": false,
+          "bonuses": []
+        },
+        {
+          "hexCorner": { "x": -1, "y": 3, "z": 0 },
+          "owner": 0,
+          "buildingType": 0,
+          "portType": 1,
+          "restrictedStartingPlacement": false,
+          "bonuses": []
+        },
+        {
+          "hexCorner": { "x": -1, "y": 2, "z": 1 },
+          "owner": 0,
+          "buildingType": 0,
+          "portType": 1,
+          "restrictedStartingPlacement": false,
+          "bonuses": []
+        },
+        {
+          "hexCorner": { "x": 0, "y": 2, "z": 0 },
+          "owner": 0,
+          "buildingType": 0,
+          "portType": 0,
+          "restrictedStartingPlacement": false,
+          "bonuses": []
+        },
+        {
+          "hexCorner": { "x": 1, "y": 1, "z": 1 },
+          "owner": 0,
+          "buildingType": 0,
+          "portType": 1,
+          "restrictedStartingPlacement": false,
+          "bonuses": []
+        },
+        {
+          "hexCorner": { "x": 0, "y": 3, "z": 0 },
+          "owner": 0,
+          "buildingType": 0,
+          "portType": 0,
+          "restrictedStartingPlacement": false,
+          "bonuses": []
+        },
+        {
+          "hexCorner": { "x": 0, "y": 2, "z": 1 },
+          "owner": 0,
+          "buildingType": 0,
+          "portType": 0,
+          "restrictedStartingPlacement": false,
+          "bonuses": []
+        },
+        {
+          "hexCorner": { "x": 1, "y": 1, "z": 0 },
+          "owner": 0,
+          "buildingType": 0,
+          "portType": 0,
+          "restrictedStartingPlacement": false,
+          "bonuses": []
+        },
+        {
+          "hexCorner": { "x": 2, "y": 0, "z": 1 },
+          "owner": 0,
+          "buildingType": 0,
+          "portType": 0,
+          "restrictedStartingPlacement": false,
+          "bonuses": []
+        },
+        {
+          "hexCorner": { "x": 1, "y": 2, "z": 0 },
+          "owner": 0,
+          "buildingType": 0,
+          "portType": 1,
+          "restrictedStartingPlacement": false,
+          "bonuses": []
+        },
+        {
+          "hexCorner": { "x": 1, "y": 0, "z": 1 },
+          "owner": 0,
+          "buildingType": 0,
+          "portType": 0,
+          "restrictedStartingPlacement": false,
+          "bonuses": []
+        },
+        {
+          "hexCorner": { "x": 2, "y": 0, "z": 0 },
+          "owner": 0,
+          "buildingType": 0,
+          "portType": 0,
+          "restrictedStartingPlacement": false,
+          "bonuses": []
+        },
+        {
+          "hexCorner": { "x": 3, "y": -1, "z": 1 },
+          "owner": 0,
+          "buildingType": 0,
+          "portType": 1,
+          "restrictedStartingPlacement": false,
+          "bonuses": []
+        },
+        {
+          "hexCorner": { "x": 2, "y": 1, "z": 0 },
+          "owner": 0,
+          "buildingType": 0,
+          "portType": 1,
+          "restrictedStartingPlacement": false,
+          "bonuses": []
+        },
+        {
+          "hexCorner": { "x": 2, "y": -1, "z": 1 },
+          "owner": 0,
+          "buildingType": 0,
+          "portType": 0,
+          "restrictedStartingPlacement": false,
+          "bonuses": []
+        },
+        {
+          "hexCorner": { "x": 2, "y": -1, "z": 0 },
+          "owner": 0,
+          "buildingType": 0,
+          "portType": 6,
+          "restrictedStartingPlacement": false,
+          "bonuses": []
+        },
+        {
+          "hexCorner": { "x": 3, "y": -2, "z": 1 },
+          "owner": 0,
+          "buildingType": 0,
+          "portType": 6,
+          "restrictedStartingPlacement": false,
+          "bonuses": []
+        },
+        {
+          "hexCorner": { "x": 1, "y": 0, "z": 0 },
+          "owner": 0,
+          "buildingType": 0,
+          "portType": 0,
+          "restrictedStartingPlacement": false,
+          "bonuses": []
+        },
+        {
+          "hexCorner": { "x": 2, "y": -2, "z": 1 },
+          "owner": 0,
+          "buildingType": 0,
+          "portType": 0,
+          "restrictedStartingPlacement": false,
+          "bonuses": []
+        },
+        {
+          "hexCorner": { "x": 2, "y": -2, "z": 0 },
+          "owner": 0,
+          "buildingType": 0,
+          "portType": 0,
+          "restrictedStartingPlacement": false,
+          "bonuses": []
+        },
+        {
+          "hexCorner": { "x": 3, "y": -3, "z": 1 },
+          "owner": 0,
+          "buildingType": 0,
+          "portType": 0,
+          "restrictedStartingPlacement": false,
+          "bonuses": []
+        },
+        {
+          "hexCorner": { "x": 1, "y": -1, "z": 0 },
+          "owner": 0,
+          "buildingType": 0,
+          "portType": 0,
+          "restrictedStartingPlacement": false,
+          "bonuses": []
+        },
+        {
+          "hexCorner": { "x": 2, "y": -3, "z": 1 },
+          "owner": 0,
+          "buildingType": 0,
+          "portType": 5,
+          "restrictedStartingPlacement": false,
+          "bonuses": []
+        },
+        {
+          "hexCorner": { "x": 1, "y": -2, "z": 0 },
+          "owner": 0,
+          "buildingType": 0,
+          "portType": 5,
+          "restrictedStartingPlacement": false,
+          "bonuses": []
+        },
+        {
+          "hexCorner": { "x": 1, "y": -2, "z": 1 },
+          "owner": 0,
+          "buildingType": 0,
+          "portType": 0,
+          "restrictedStartingPlacement": false,
+          "bonuses": []
+        },
+        {
+          "hexCorner": { "x": 0, "y": 0, "z": 0 },
+          "owner": 0,
+          "buildingType": 0,
+          "portType": 0,
+          "restrictedStartingPlacement": false,
+          "bonuses": []
+        },
+        {
+          "hexCorner": { "x": 0, "y": -1, "z": 1 },
+          "owner": 0,
+          "buildingType": 0,
+          "portType": 0,
+          "restrictedStartingPlacement": false,
+          "bonuses": []
+        },
+        {
+          "hexCorner": { "x": -1, "y": 1, "z": 0 },
+          "owner": 0,
+          "buildingType": 0,
+          "portType": 0,
+          "restrictedStartingPlacement": false,
+          "bonuses": []
+        },
+        {
+          "hexCorner": { "x": 0, "y": 0, "z": 1 },
+          "owner": 0,
+          "buildingType": 0,
+          "portType": 0,
+          "restrictedStartingPlacement": false,
+          "bonuses": []
+        },
+        {
+          "hexCorner": { "x": 0, "y": 1, "z": 0 },
+          "owner": 0,
+          "buildingType": 0,
+          "portType": 0,
+          "restrictedStartingPlacement": false,
+          "bonuses": []
+        },
+        {
+          "hexCorner": { "x": 1, "y": -1, "z": 1 },
+          "owner": 0,
+          "buildingType": 0,
+          "portType": 0,
+          "restrictedStartingPlacement": false,
+          "bonuses": []
+        }
+      ],
+      "tileEdges": [
+        { "hexEdge": { "x": 1, "y": -3, "z": 2 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": 1, "y": -2, "z": 1 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": 0, "y": -1, "z": 0 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": 0, "y": -2, "z": 2 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": 0, "y": -2, "z": 1 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": 0, "y": -2, "z": 0 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": 0, "y": -1, "z": 1 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": -1, "y": 0, "z": 0 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": -1, "y": -1, "z": 2 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": -1, "y": -1, "z": 1 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": -1, "y": -1, "z": 0 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": -1, "y": 0, "z": 1 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": -2, "y": 1, "z": 0 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": -2, "y": 0, "z": 2 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": -2, "y": 0, "z": 1 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": -2, "y": 0, "z": 0 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": -1, "y": 0, "z": 2 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": -1, "y": 1, "z": 1 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": -2, "y": 2, "z": 0 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": -2, "y": 1, "z": 2 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": -2, "y": 1, "z": 1 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": -1, "y": 1, "z": 2 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": -1, "y": 2, "z": 1 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": -2, "y": 3, "z": 0 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": -2, "y": 2, "z": 2 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": -2, "y": 2, "z": 1 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": 0, "y": 1, "z": 2 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": 0, "y": 2, "z": 1 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": -1, "y": 3, "z": 0 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": -1, "y": 2, "z": 2 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": -1, "y": 2, "z": 0 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": 1, "y": 1, "z": 2 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": 1, "y": 2, "z": 1 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": 0, "y": 3, "z": 0 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": 0, "y": 2, "z": 2 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": 0, "y": 2, "z": 0 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": 2, "y": 0, "z": 2 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": 2, "y": 1, "z": 1 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": 1, "y": 2, "z": 0 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": 1, "y": 1, "z": 1 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": 1, "y": 1, "z": 0 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": 3, "y": -1, "z": 2 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": 3, "y": 0, "z": 1 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": 2, "y": 1, "z": 0 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": 2, "y": 0, "z": 1 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": 2, "y": 0, "z": 0 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": 3, "y": -2, "z": 2 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": 3, "y": -1, "z": 1 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": 2, "y": -1, "z": 2 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": 2, "y": -1, "z": 1 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": 2, "y": -1, "z": 0 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": 3, "y": -3, "z": 2 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": 3, "y": -2, "z": 1 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": 2, "y": -2, "z": 2 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": 2, "y": -2, "z": 1 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": 2, "y": -2, "z": 0 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": 2, "y": -3, "z": 2 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": 1, "y": -1, "z": 0 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": 1, "y": -2, "z": 2 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": 1, "y": -2, "z": 0 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": 1, "y": -1, "z": 1 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": 0, "y": 0, "z": 0 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": 0, "y": -1, "z": 2 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": 0, "y": 0, "z": 1 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": -1, "y": 1, "z": 0 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": 0, "y": 0, "z": 2 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": 0, "y": 1, "z": 1 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": 1, "y": 0, "z": 2 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": 0, "y": 1, "z": 0 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": 1, "y": 0, "z": 1 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": 1, "y": 0, "z": 0 }, "owner": 0, "type": 0 },
+        { "hexEdge": { "x": 1, "y": -1, "z": 2 }, "owner": 0, "type": 0 }
+      ]
+    },
+    "portState": {
+      "portEdges": [
+        { "hexEdge": { "x": 0, "y": -2, "z": 0 }, "portType": 4 },
+        { "hexEdge": { "x": -2, "y": 2, "z": 2 }, "portType": 2 },
+        { "hexEdge": { "x": -1, "y": 3, "z": 0 }, "portType": 1 },
+        { "hexEdge": { "x": 3, "y": 0, "z": 1 }, "portType": 1 },
+        { "hexEdge": { "x": -1, "y": -1, "z": 1 }, "portType": 3 },
+        { "hexEdge": { "x": -2, "y": 1, "z": 1 }, "portType": 1 },
+        { "hexEdge": { "x": 1, "y": 2, "z": 0 }, "portType": 1 },
+        { "hexEdge": { "x": 2, "y": -3, "z": 2 }, "portType": 5 },
+        { "hexEdge": { "x": 3, "y": -2, "z": 2 }, "portType": 6 }
+      ]
+    }
+  }
+}

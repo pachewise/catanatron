@@ -1,0 +1,13 @@
+{
+  "id": "16",
+  "data": [
+    {
+      "hexCorner": { "x": 1, "y": 1, "z": 0 },
+      "owner": 4,
+      "buildingType": 1,
+      "portType": 0,
+      "restrictedStartingPlacement": false,
+      "bonuses": []
+    }
+  ]
+}

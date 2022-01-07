@@ -1,0 +1,59 @@
+{
+  "id": "12",
+  "data": [
+    {
+      "color": 1,
+      "icon": 11,
+      "username": "Fried#7718",
+      "hoverText": "Player completed 0 games in recent 0 games",
+      "disconnected": false,
+      "isBot": false,
+      "bankRoadAmount": 15,
+      "bankSettlementAmount": 5,
+      "bankCityAmount": 4,
+      "bankShipAmount": 0,
+      "bankCityWallAmount": 0,
+      "longestRoad": 0,
+      "placedRoadAmount": 0,
+      "placedSettlementAmount": 0,
+      "placedCityAmount": 0,
+      "placedShipAmount": 0,
+      "placedCityWallAmount": 0,
+      "resourceCards": [],
+      "cardDiscardLimit": 7,
+      "developmentCards": [],
+      "developmentCardsUsed": [],
+      "hasLongestRoad": false,
+      "hasLargestArmy": false,
+      "victoryPointState": { "victoryPoints": [] },
+      "canPlaceRoad": {
+        "canTakeAction": false,
+        "errorMessageIfCantTakeAction": "Not enough resources"
+      },
+      "canPlaceSettlement": {
+        "canTakeAction": false,
+        "errorMessageIfCantTakeAction": "Not enough resources"
+      },
+      "canPlaceCity": {
+        "canTakeAction": false,
+        "errorMessageIfCantTakeAction": "No settlement to upgrade"
+      },
+      "canBuyDevelopmentCard": {
+        "canTakeAction": false,
+        "errorMessageIfCantTakeAction": "Not enough resources"
+      },
+      "canPlaceShip": {
+        "canTakeAction": false,
+        "errorMessageIfCantTakeAction": ""
+      },
+      "canMoveShip": {
+        "canTakeAction": false,
+        "errorMessageIfCantTakeAction": ""
+      },
+      "canPlaceCityWall": {
+        "canTakeAction": false,
+        "errorMessageIfCantTakeAction": ""
+      }
+    }
+  ]
+}
