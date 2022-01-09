@@ -43,15 +43,15 @@ def consume_messages():
 play_bots_btn = driver.find_element(By.ID, "landingpage_cta_playvsbots")
 play_bots_btn.click()
 print("CLICKED PLAY WITH BOTS")
-while True:
-    messages = consume_messages()
-    driver.implicitly_wait(10)  # seconds
-    canvas = driver.find_element(By.CSS_SELECTOR, "canvas")
-    # i = 0
-    clicks = [(0, 0), (10, 0), (20, 0), (30, 0)]
-    for i in range(0, 100, 5):
-        (x, y) = (i, 0 - i)
-        print(i, "Clicking on", x, y)
+driver.implicitly_wait(10)  # seconds
+canvas = driver.find_element(By.CSS_SELECTOR, "canvas")
+# x = 10 seems to be icons on the left
+
+for x in range(0, 600, 10):
+    for y in range(0, 500, 10):
+        messages = consume_messages()
+
+        print("Clicking on", x, y)
         # driver.action.move_to(canvas, x, y).perform()
         # driver.click.perform()
         # driver.action
@@ -67,9 +67,9 @@ while True:
         # x -= 5
         # y -= 5
 
-    print(len(messages))
-    time.sleep(10)  # wait for game to load up
-    # driver.implicitly_wait(10) # seconds
+        print(len(messages))
+        # time.sleep(1)  # wait for game to load up
+        # driver.implicitly_wait(10) # seconds
 
 # Idea: collect player controller state messages
 # height: 50px;
