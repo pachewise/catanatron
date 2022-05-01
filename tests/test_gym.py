@@ -133,3 +133,32 @@ def test_mixed_rep():
     observation = env.reset()
     assert "board" in observation
     assert "numeric" in observation
+    check_env(env)
+
+
+def test_image_rep():
+    env = gym.make(
+        "catanatron_gym:catanatron-v0",
+        config={"representation": "image"},
+    )
+    observation = env.reset()
+    check_env(env)
+    assert observation.shape == (64, 21, 11)
+
+
+def test_normalized_samples():
+    env = gym.make(
+        "catanatron_gym:catanatron-v0",
+        config={"normalized": True, "representation": "mixed"},
+    )
+    observation = env.reset()
+    assert abs(observation["numeric"].sum()) - len(observation["numeric"]) < 10
+
+
+def test_normalized_samples_vector():
+    env = gym.make(
+        "catanatron_gym:catanatron-v0",
+        config={"normalized": True, "representation": "vector"},
+    )
+    observation = env.reset()
+    assert abs(observation.sum()) - len(observation) < 10

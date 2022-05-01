@@ -1,12 +1,24 @@
+import time
+from io import BytesIO
+from pathlib import Path
+
 import gym
 from gym import spaces
 import numpy as np
+from PIL import Image
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
+
 
 from catanatron.game import Game
 from catanatron.models.player import Color, Player, RandomPlayer
 from catanatron.models.map import BASE_MAP_TEMPLATE, NUM_NODES, LandTile, build_map
 from catanatron.models.enums import RESOURCES, Action, ActionType
 from catanatron.models.board import get_edges
+from catanatron_server.utils import ensure_link
 from catanatron_gym.features import (
     create_sample,
     get_feature_ordering,
@@ -122,8 +134,56 @@ def simple_reward(game, p0_color):
         return -1
 
 
+DATA_DIRECTORY = Path(__file__, "..").resolve()
+SAMPLES_MEAN_PATH = Path(DATA_DIRECTORY, "samples-mean.npy")
+SAMPLES_VARIANCE_PATH = Path(DATA_DIRECTORY, "samples-variance.npy")
+
+BOARD_TENSORS_MEAN_PATH = Path(DATA_DIRECTORY, "board-tensors-mean.npy")
+BOARD_TENSORS_VARIANCE_PATH = Path(DATA_DIRECTORY, "board-tensors-variance.npy")
+NUMERIC_FEATURES_MEAN_PATH = Path(DATA_DIRECTORY, "numeric-features-mean.npy")
+NUMERIC_FEATURES_VARIANCE_PATH = Path(DATA_DIRECTORY, "numeric-features-variance.npy")
+
+samples_mean = np.load(SAMPLES_MEAN_PATH)
+samples_variance = np.load(SAMPLES_VARIANCE_PATH)
+board_tensors_mean = np.transpose(
+    np.load(BOARD_TENSORS_MEAN_PATH).reshape((1, 1, 16)), (2, 0, 1)
+)
+board_tensors_variance = np.transpose(
+    np.load(BOARD_TENSORS_VARIANCE_PATH).reshape((1, 1, 16)), (2, 0, 1)
+)
+numeric_mean = np.load(NUMERIC_FEATURES_MEAN_PATH).reshape((48,))
+numeric_variance = np.load(NUMERIC_FEATURES_VARIANCE_PATH).reshape((48,))
+
+
+def get_observation(
+    game, p0_color, representation, features, numeric_features, normalize
+):
+    sample = create_sample(game, p0_color)
+    if representation == "mixed":
+        board_tensor = create_board_tensor(game, p0_color, channels_first=True)
+        numeric = np.array([float(sample[i]) for i in numeric_features])
+        if normalize:
+            normalized_board_tensor = (board_tensor - board_tensors_mean) / (
+                board_tensors_variance + 1e-10
+            )  # 1e-10 to safe divide
+            normalized_numeric = (numeric - numeric_mean) / (
+                numeric_variance + 1e-10
+            )  # 1e-10 to safe divide
+
+            return {"board": normalized_board_tensor, "numeric": normalized_numeric}
+
+        return {"board": board_tensor, "numeric": numeric}
+    elif representation == "image":
+        board_tensor = create_board_tensor(game, p0_color, channels_first=True)
+        numeric = np.array([float(sample[i]) for i in numeric_features])
+        tiles = [np.tile(i, board_tensor.shape[1:]) for i in numeric]
+        return np.concatenate((board_tensor, tiles))
+
+    return np.array([float(sample[i]) for i in features])
+
+
 class CatanatronEnv(gym.Env):
-    metadata = {"render.modes": []}
+    metadata = {"render.modes": ["docker_rgb_array"]}
 
     action_space = spaces.Discrete(ACTION_SPACE_SIZE)
     # TODO: This could be smaller (there are many binary features). float b.c. TILE0_PROBA
@@ -138,12 +198,12 @@ class CatanatronEnv(gym.Env):
         self.vps_to_win = self.config.get("vps_to_win", 10)
         self.enemies = self.config.get("enemies", [RandomPlayer(Color.RED)])
         self.representation = self.config.get("representation", "vector")
+        self.normalize = self.config.get("normalized", False)
 
         assert all(p.color != Color.BLUE for p in self.enemies)
-        assert self.representation in ["mixed", "vector"]
+        assert self.representation in ["mixed", "vector", "image"]
         self.p0 = Player(Color.BLUE)
         self.players = [self.p0] + self.enemies  # type: ignore
-        self.representation = "mixed" if self.representation == "mixed" else "vector"
         self.features = get_feature_ordering(len(self.players), self.map_type)
         self.invalid_actions_count = 0
         self.max_invalid_actions = 10
@@ -169,12 +229,26 @@ class CatanatronEnv(gym.Env):
                 }
             )
             self.observation_space = mixed
+        elif self.representation == "image":
+            channels = get_channels(len(self.players))
+
+            self.numeric_features = [
+                f for f in self.features if not is_graph_feature(f)
+            ]
+            self.observation_space = spaces.Box(
+                low=0,
+                high=HIGH,
+                shape=(channels + len(self.numeric_features), 21, 11),
+                dtype=float,
+            )
         else:
             self.observation_space = spaces.Box(
                 low=0, high=HIGH, shape=(len(self.features),), dtype=float
             )
+            self.numeric_features = []
 
         self.reset()
+        self.driver = None  # initialized lazily for rendering
 
     def get_valid_actions(self):
         """
@@ -189,7 +263,14 @@ class CatanatronEnv(gym.Env):
         except Exception as e:
             self.invalid_actions_count += 1
 
-            observation = self._get_observation()
+            observation = get_observation(
+                self.game,
+                self.p0.color,
+                self.representation,
+                self.features,
+                self.numeric_features,
+                self.normalize,
+            )
             winning_color = self.game.winning_color()
             done = (
                 winning_color is not None
@@ -201,7 +282,14 @@ class CatanatronEnv(gym.Env):
         self.game.execute(catan_action)
         self._advance_until_p0_decision()
 
-        observation = self._get_observation()
+        observation = get_observation(
+            self.game,
+            self.p0.color,
+            self.representation,
+            self.features,
+            self.numeric_features,
+            self.normalize,
+        )
         info = dict(valid_actions=self.get_valid_actions())
 
         winning_color = self.game.winning_color()
@@ -221,19 +309,15 @@ class CatanatronEnv(gym.Env):
 
         self._advance_until_p0_decision()
 
-        observation = self._get_observation()
+        observation = get_observation(
+            self.game,
+            self.p0.color,
+            self.representation,
+            self.features,
+            self.numeric_features,
+            self.normalize,
+        )
         return observation
-
-    def _get_observation(self):
-        sample = create_sample(self.game, self.p0.color)
-        if self.representation == "mixed":
-            board_tensor = create_board_tensor(
-                self.game, self.p0.color, channels_first=True
-            )
-            numeric = np.array([float(sample[i]) for i in self.numeric_features])
-            return {"board": board_tensor, "numeric": numeric}
-
-        return np.array([float(sample[i]) for i in self.features])
 
     def _advance_until_p0_decision(self):
         while (
@@ -241,6 +325,32 @@ class CatanatronEnv(gym.Env):
             and self.game.state.current_color() != self.p0.color
         ):
             self.game.play_tick()  # will play bot
+
+    def render(self, mode="docker_rgb_array"):
+        """Requires docker image to be up and running"""
+        if mode != "docker_rgb_array":
+            super(CatanatronEnv, self).render(mode=mode)  # just raise an exception
+
+        if self.driver == None:
+            options = Options()
+            options.add_argument("--headless")
+            options.add_argument("--window-size=1920x1080")
+            self.driver = webdriver.Chrome(options=options)
+            self.driver.maximize_window()
+
+        link = ensure_link(self.game)
+
+        self.driver.get(link)
+        WebDriverWait(self.driver, 3).until(
+            EC.presence_of_element_located((By.CLASS_NAME, "node"))
+        )
+        time.sleep(0.2)
+        # screenshot = driver.save_screenshot("my_screenshot.png")
+        png = self.driver.get_screenshot_as_png()  # saves screenshot of entire page
+        img = Image.open(BytesIO(png))  # uses PIL library to open image in memory
+        rgba_array = np.asarray(img)
+        rgb_array = rgba_array[:, :, :3]
+        return rgb_array
 
 
 CatanatronEnv.__doc__ = f"""
